@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAMSA Phones - Paiement</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand">SAMSA Phones</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Téléphones</a></li>
+        <li class="nav-item"><a class="nav-link" href="../accessoires.html">Accessoires</a></li>
+        <li class="nav-item"><a class="nav-link" href="../about.html">À propos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <div class="row g-5">
+      <!-- Récapitulatif à gauche -->
+      <div class="col-md-5 col-lg-4 order-md-first">
+        <div class="card">
+          <div class="card-header bg-light">
+            <h4 class="mb-0">Récapitulatif de la commande</h4>
+          </div>
+          <div class="card-body">
+            <h6 class="d-flex justify-content-between mb-3">
+              <span>Éléments de la commande</span>
+            </h6>
+            <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">Votre commande est enregistrée</h6>
+                  <small class="text-muted">Quantité: 1</small>
+                </div>
+                <span class="text-muted">payé en MAD</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">Frais de livraison</h6>
+                  <small class="text-muted">Standard</small>
+                </div>
+                <span class="text-muted">Gratuit</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">Soutenez notre groupe</h6>
+                  <small class="text-muted">Optionnel</small>
+                </div>
+                <span class="text-muted">+50 MAD</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                  <h6 class="my-0">Code promo</h6>
+                  <small>Etudiant Master FEG</small>
+                </div>
+                <span class="text-success">Gratuit pour vous</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total (MAD)</span>
+                <strong>0000 MAD</strong>
+              </li>
+            </ul>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="promo-code" placeholder="Code promo">
+              <button type="button" class="btn btn-secondary" id="apply-promo">Appliquer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Paiement -->
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Adresse de facturation</h4>
+        <form class="needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="firstName" required>
+              <div class="invalid-feedback">Veuillez entrer votre prénom.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="lastName" required>
+              <div class="invalid-feedback">Veuillez entrer votre nom.</div>
+            </div>
+            <div class="col-12">
+              <label for="email" class="form-label">Email <span class="text-muted">(optionnel)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+            </div>
+            <div class="col-12">
+              <label for="address" class="form-label">Adresse</label>
+              <input type="text" class="form-control" id="address" required>
+              <div class="invalid-feedback">Veuillez entrer une adresse de livraison.</div>
+            </div>
+            <div class="col-md-5">
+              <label for="country" class="form-label">Pays</label>
+              <select class="form-select" id="country" required>
+                <option value="">Choisir...</option>
+                <option>Maroc</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="state" class="form-label">Ville</label>
+              <select class="form-select" id="state" required>
+                <option value="">Choisir...</option>
+                <option>Beni-Mellal</option>
+                <option>Tetouan</option>
+                <option>Marrakech</option>
+                <option>Casablanca</option>
+                <option>Rabat</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="zip" class="form-label">Code postal</label>
+              <input type="text" class="form-control" id="zip" required>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div id="payment-section">
+            <h4 class="mb-3">Paiement</h4>
+            <div class="my-3">
+              <div class="form-check">
+                <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                <label class="form-check-label" for="credit">Carte bancaire</label>
+              </div>
+            </div>
+            <div class="row gy-3">
+              <div class="col-md-6">
+                <label for="cc-name" class="form-label">Nom sur la carte</label>
+                <input type="text" class="form-control" id="cc-name" required>
+              </div>
+              <div class="col-md-6">
+                <label for="cc-number" class="form-label">Numéro de carte</label>
+                <input type="text" class="form-control" id="cc-number" required>
+              </div>
+              <div class="col-md-3">
+                <label for="cc-expiration" class="form-label">Expiration</label>
+                <input type="text" class="form-control" id="cc-expiration" required>
+              </div>
+              <div class="col-md-3">
+                <label for="cc-cvv" class="form-label">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" required>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <button class="w-100 btn btn-primary btn-lg" type="submit" id="pay-button">Payer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const promoInput = document.getElementById("promo-code");
+    const applyBtn = document.getElementById("apply-promo");
+    const paymentSection = document.getElementById("payment-section");
+    const payButton = document.getElementById("pay-button");
+    const form = document.querySelector("form.needs-validation");
+
+    // Action au clic sur le bouton "Appliquer"
+    applyBtn.addEventListener("click", function () {
+      const code = promoInput.value.trim().toLowerCase();
+
+      if (code === "je suis un étudiant en master feg") {
+        // Masquer le paiement
+        paymentSection.style.display = "none";
+
+        // Modifier le bouton
+        payButton.textContent = "Besse7a w ra7a 😄";
+        payButton.classList.remove("btn-primary");
+        payButton.classList.add("btn-success");
+      } else {
+        alert("Code promo invalide !");
+      }
+    });
+
+    // Action lors de la soumission du formulaire
+    if (form) {
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+          form.classList.add("was-validated");
+          return;
+        }
+
+        const code = promoInput.value.trim().toLowerCase();
+
+        if (code === "je suis un étudiant en master feg") {
+          window.location.href = "../index.html"; // Redirige vers la page d'accueil
+        } else {
+          window.location.href = "success.html"; // Redirige vers la page de succès
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>

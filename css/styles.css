@@ -1,0 +1,71 @@
+body {
+  background-color: #f8f9fa;
+}
+.card {
+  margin-bottom: 20px;
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+  display: block !important;
+}
+.navbar {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-brand img {
+  border-radius: 8px;
+}
+
+.btn-outline-light {
+ color: #f8f9fa;
+ border-color: #f8f9fa;
+}
+
+.btn-outline-light:hover {
+ color: #212529;
+ background-color: #f8f9fa;
+ border-color: #f8f9fa;
+}
+/* Fixe la navbar en haut avec animation */
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  animation: fadeInDown 0.9s ease-in-out;
+}
+
+/* Animation d’apparition */
+@keyframes fadeInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05); /* Agrandit légèrement */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ajoute une ombre */
+  z-index: 1;
+}
+.btn-primary {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #004a99; /* une teinte plus foncée de bleu */
+  transform: scale(1.05); /* effet de zoom léger */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ombre autour du bouton */
+}
