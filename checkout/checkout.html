@@ -73,7 +73,7 @@
             </ul>
             <div class="input-group mb-3">
               <input type="text" class="form-control" id="promo-code" placeholder="Code promo">
-              <button type="button" class="btn btn-secondary" id="apply-promo">Appliquer</button>
+              <button type="button"  class="btn btn-secondary" id="apply-promo">Appliquer</button>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@
           </div>
 
           <hr class="my-4">
-          <button class="w-100 btn btn-primary btn-lg" type="submit" id="pay-button">Payer</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit" href="index.html" id="pay-button">Payer</button>
         </form>
       </div>
     </div>
@@ -179,7 +179,7 @@
     applyBtn.addEventListener("click", function () {
       const code = promoInput.value.trim().toLowerCase();
 
-      if (code === "je suis un étudiant en master feg") {
+      if (code === "master feg") {
         // Masquer le paiement
         paymentSection.style.display = "none";
 
@@ -187,11 +187,14 @@
         payButton.textContent = "Besse7a w ra7a 😄";
         payButton.classList.remove("btn-primary");
         payButton.classList.add("btn-success");
+        
       } else {
         alert("Code promo invalide !");
       }
     });
-
+    payButton.addEventListener("click",function(){
+      window.location.href = "../index.html"; 
+    })
     // Action lors de la soumission du formulaire
     if (form) {
       form.addEventListener("submit", function (event) {
@@ -204,7 +207,7 @@
 
         const code = promoInput.value.trim().toLowerCase();
 
-        if (code === "je suis un étudiant en master feg") {
+        if (code === "master feg") {
           window.location.href = "../index.html"; // Redirige vers la page d'accueil
         } else {
           window.location.href = "success.html"; // Redirige vers la page de succès

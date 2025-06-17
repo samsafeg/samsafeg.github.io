@@ -30,9 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
     form.classList.add("was-validated");
     return;
   }
-
   const code = promoInput.value.trim().toLowerCase();
-  if (code === "je suis un étudiant en master feg") {
+  if (code === "master feg") {
     window.location.href = "../index.html"; // Redirige vers l'accueil
   } else {
     window.location.href = "success.html"; // Redirige vers la page de succès normale
