@@ -10,20 +10,29 @@
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-sticky">
+  <div class="container">
+    <!-- Logo + Nom -->
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
       <img src="images/logo.png" alt="Logo SAMSA Phones" width="40" height="40" class="me-2">
       <strong>SAMSA Phones</strong>
     </a>
+
+    <!-- Bouton responsive -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Liens -->
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Téléphones</a></li>
+        <li class="nav-item"><a class="nav-link active" href="index.html">Téléphones</a></li>
         <li class="nav-item"><a class="nav-link" href="accessoires.html">Accessoires</a></li>
         <li class="nav-item"><a class="nav-link" href="about.html">À propos</a></li>
       </ul>
     </div>
-  </nav>
-
+  </div>
+</nav>
   <!-- Liste des produits -->
   <div class="container my-5">
     <h1 class="text-center mb-4">Nos Accessoires</h1>
