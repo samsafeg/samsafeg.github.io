@@ -176,126 +176,156 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Convert name to uppercase in real time
-    document.getElementById('cc-name').addEventListener('input', function () {
-      this.value = this.value.toUpperCase();
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  // --- FORM ELEMENTS ---
+  const form = document.querySelector("form.needs-validation");
+  const payButton = document.getElementById("pay-button");
+  const promoInput = document.getElementById("promo-code");
+  const applyBtn = document.getElementById("apply-promo");
+  const paymentSection = document.getElementById('payment-section');
+  const paymentMethodSelect = document.getElementById('payment-method');
 
-    // Card number validation
-    document.getElementById('cc-number').addEventListener('input', function () {
-      this.value = this.value.replace(/\D/g, '').slice(0, 16);
-    });
+  // --- REAL-TIME INPUT FORMATTING (NO CHANGES HERE) ---
+  document.getElementById('cc-name').addEventListener('input', function () {
+    this.value = this.value.toUpperCase();
+  });
 
-    // CVV validation
-    document.getElementById('cc-cvv').addEventListener('input', function () {
-      this.value = this.value.replace(/\D/g, '').slice(0, 3);
-    });
+  document.getElementById('cc-number').addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').slice(0, 16);
+  });
 
-    // Form & elements
-    const payButton = document.getElementById("pay-button");
-    const promoInput = document.getElementById("promo-code");
-    const applyBtn = document.getElementById("apply-promo");
-    const form = document.querySelector("form.needs-validation");
-    const paymentSection = document.getElementById('payment-section');
-    const select = document.getElementById('payment-method');
+  document.getElementById('cc-cvv').addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').slice(0, 3);
+  });
 
-    // Promo code logic
-    applyBtn?.addEventListener("click", function () {
-      const code = promoInput.value.trim().toLowerCase();
-      if (code === "master feg") {
-        paymentSection.classList.add("d-none");
-        payButton.textContent = "Félicitations 😄";
-        payButton.classList.remove("btn-primary");
-        payButton.classList.add("btn-success");
-      } else {
-        alert("Code promo invalide !");
-      }
-    });
+  // --- PROMO CODE LOGIC ---
+  applyBtn?.addEventListener("click", function () {
+    const code = promoInput.value.trim().toLowerCase();
+    if (code === "master feg") {
+      paymentSection.classList.add("d-none");
+      payButton.textContent = "Félicitations 😄";
+      payButton.classList.remove("btn-primary");
+      payButton.classList.add("btn-success");
+      // Disable the payment method selector as it's no longer needed
+      paymentMethodSelect.disabled = true; 
+    } else {
+      alert("Code promo invalide !");
+    }
+  });
 
-    // Pay button behavior
-    payButton.addEventListener("click", function (e) {
-      const cardNumber = document.getElementById('cc-number').value;
-      const cvv = document.getElementById('cc-cvv').value;
-      const name = document.getElementById('cc-name').value.trim();
+  // --- PAYMENT METHOD TOGGLE ---
+  function show(el) {
+    el.classList.remove('d-none');
+  }
+  function hide(el) {
+    el.classList.add('d-none');
+  }
 
+  // Initial state
+  hide(paymentSection);
+  paymentMethodSelect.addEventListener('change', function () {
+          if (payButton.textContent === "Félicitations 😄") return;
+
+          const ccInputs = paymentSection.querySelectorAll('input');
+          
+          if (this.value === 'cb') {
+            // show and require CC inputs
+            show(paymentSection);
+            ccInputs.forEach(i => {
+              i.required = true;
+              i.disabled = false;
+            });
+            payButton.textContent = 'Payer';
+          } else if (this.value === 'livraison') {
+            // hide and un-require CC inputs
+            hide(paymentSection);
+            ccInputs.forEach(i => {
+              i.required = false;
+              i.disabled = true;
+            });
+            payButton.textContent = 'Commander';
+          } else {
+            hide(paymentSection);
+            ccInputs.forEach(i => {
+              i.required = false;
+              i.disabled = true;
+            });
+            payButton.textContent = 'Payer';
+          }
+});
+/*
+  // old code 
+  paymentMethodSelect?.addEventListener('change', function () {
+    // Don't do anything if a valid promo code has been applied
+    if (payButton.textContent === "Félicitations 😄") return;
+
+    if (this.value === 'cb') {
+      show(paymentSection);
+      payButton.textContent = 'Payer';
+    } else if (this.value === 'livraison') {
+      hide(paymentSection);
+      payButton.textContent = 'Commander';
+    } else {
+      hide(paymentSection);
+      payButton.textContent = 'Payer';
+    }
+  });
+*/
+  // --- UNIFIED FORM SUBMISSION HANDLER ---
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      // ALWAYS prevent the default browser submission
+      event.preventDefault();
+
+      // Special case for promo code success
       if (payButton.textContent === "Félicitations 😄") {
         window.location.href = "../index.html";
         return;
       }
 
-      if (payButton.textContent === "Commander") {
+      // First, check the main form fields (address, name, etc.)
+      if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return; // Stop everything if the form is invalid
+      }
+      
+      // If we are here, the main form is valid. Now we check payment details.
+      const selectedPayment = paymentMethodSelect.value;
+
+      // If credit card is selected, perform the card-specific validation
+      if (selectedPayment === 'cb') {
+        const cardNumber = document.getElementById('cc-number').value;
+        const cvv = document.getElementById('cc-cvv').value;
+        const name = document.getElementById('cc-name').value.trim();
+
+        if (cardNumber.length !== 16) {
+          alert("Le numéro de carte doit contenir 16 chiffres.");
+          return; // Stop submission
+        }
+        if (cvv.length !== 3) {
+          alert("Le code CVV doit contenir 3 chiffres.");
+          return; // Stop submission
+        }
+        if (name.length === 0) {
+          alert("Le nom sur la carte est requis.");
+          return; // Stop submission
+        }
+        
+        // If card validation passes, redirect to success page
+        window.location.href = "success.html";
+        
+
+      } else if (selectedPayment === 'livraison') {
+        // If cash on delivery is selected, redirect to the delivery page
         window.location.href = "livraison.html";
-        return;
-      }
-
-      // Validation before default payment
-      if (cardNumber.length !== 16) {
-        alert("Le numéro de carte doit contenir 16 chiffres.");
-        e.preventDefault();
-        return;
-      }
-
-      if (cvv.length !== 3) {
-        alert("Le code CVV doit contenir 3 chiffres.");
-        e.preventDefault();
-        return;
-      }
-
-      if (name.length === 0) {
-        alert("Le nom sur la carte est requis.");
-        e.preventDefault();
-        return;
       }
     });
-
-    // Form validation
-    if (form) {
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        if (!form.checkValidity()) {
-          form.classList.add("was-validated");
-          return;
-        }
-        const code = promoInput.value.trim().toLowerCase();
-        if (code === "master feg") {
-          window.location.href = "../index.html";
-        } else {
-          window.location.href = "success.html";
-        }
-      });
-    }
-
-    // Payment method toggle
-    function show(el) {
-      el.classList.remove('d-none');
-      el.style.display = 'block';
-    }
-    function hide(el) {
-      el.classList.add('d-none');
-      el.style.display = 'none';
-    }
-
-    hide(paymentSection); // Initial state
-
-    select?.addEventListener('change', function () {
-      if (this.value === 'cb') {
-        show(paymentSection);
-        payButton.textContent = 'Payer';
-        payButton.classList.remove("btn-success");
-        payButton.classList.add("btn-primary");
-      } else if (this.value === 'livraison') {
-        hide(paymentSection);
-        payButton.textContent = 'Commander';
-        payButton.classList.remove("btn-success");
-        payButton.classList.add("btn-primary");
-      } else {
-        hide(paymentSection);
-        payButton.textContent = 'Payer';
-      }
-    });
-  });
+  }
+});
 </script>
 
 </body>
